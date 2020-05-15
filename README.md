@@ -1,12 +1,11 @@
 Here it's the deal!!!
 =====================
 
-	* Communicate to ROS Robot through web interface. roslibjs and rosbridge_websockets can be used for this. Though roslibjs documentation covers most part, thin wrapper can help the developers. These javascript plugins covers the most important part of ROS communication such as,
-
-		* ROS Connection
-		* ROS Parameter
-		* ROS Service
-		* ROS Topic
+Communicate to ROS Robot through web interface. roslibjs and rosbridge_websockets can be used for this. Though roslibjs documentation covers most part, thin wrapper can help the developers. These javascript plugins covers the most important part of ROS communication such as,
+	* ROS Connection
+	* ROS Parameter
+	* ROS Service
+	* ROS Topic
 
 RosConnection:
 --------------
