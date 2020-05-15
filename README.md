@@ -19,30 +19,30 @@ RosConnection:
 
     Methods:
     --------
-    	* getRos() 								: Get roslibjs object
-    	* isConnected() 						: Check whether connection available or not
-    	* getTopicsList() 						: Get the list of topics available in ROS as JSON format string
-    	* getNodesList() 						: Get the list of nodes available in ROS as JSON format string
-    	* getParamsList() 						: Get the list of parameters available in ROS as JSON format string
-    	* getServicesList() 					: Get the list of services available in ROS as JSON format string
-    	* registerRosConnectedCallbackFn() 		: Callback function to notify the client when WS connection established.
-    	* registerRosDisconnectedCallbackFn() 	: Callback function to notify the client when WS disconnected.
+    	* getRos() 				: Get roslibjs object
+    	* isConnected() 			: Check whether connection available or not
+    	* getTopicsList() 			: Get the list of topics available in ROS as JSON format string
+    	* getNodesList() 			: Get the list of nodes available in ROS as JSON format string
+    	* getParamsList() 			: Get the list of parameters available in ROS as JSON format string
+    	* getServicesList() 			: Get the list of services available in ROS as JSON format string
+    	* registerRosConnectedCallbackFn() 	: Callback function to notify the client when WS connection established.
+    	* registerRosDisconnectedCallbackFn()	: Callback function to notify the client when WS disconnected.
 
 RosTopic
 --------
 
 	Parameters:
 	-----------
-		$rosConn  		: null  /* RosConnection object (object). Default to null */
-		$name   		: null  /* ros topic name (string). Default to null */
+		$rosConn  	: null  /* RosConnection object (object). Default to null */
+		$name   	: null  /* ros topic name (string). Default to null */
 		$messageType 	: null  /* ros topic message type (string). Default to null */
 
 	Methods:
 	--------
-		* get$Topic() 				: Get RosTopic object
+		* get$Topic() 			: Get RosTopic object
 		* subscribe(callbackFn) 	: Subscribe to topic. method as argument.
-		* unsubscribe() 			: Unsubscribe the topic
-		* publishMsg(ROSmessageJSON): Publish message to the topic. JSON string as argument.
+		* unsubscribe() 		: Unsubscribe the topic
+		* publishMsg(ROSmessageJSON)	: Publish message to the topic. JSON string as argument.
 
 RosParam
 --------
@@ -71,10 +71,10 @@ RosService
 
 	Methods:
 	--------
-		* get$Service 				: Get RosService object
+		* get$Service 			: Get RosService object
 		* call(request, response) 	: Call the service request. 
-									  Request should be JSON string. 
-									  Response should be a method.
+						  	Request should be JSON string. 
+							Response should be a method.
 
 Demo
 ====
