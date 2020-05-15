@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>ROSLIB Wrapper Demo</title>
+</head>
+
+<body>
+  <div>
+    <button id="connect_demo">Connect & Get Status</button><br><br>
+    <button id="topic_publish_demo">Publish</button>
+    <button id="topic_subscribe_demo">Subscribe</button><br><br>
+    <button id="get_param_demo">Get Param</button>
+    <button id="set_param_demo">Set Param</button> 
+  </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/roslibjs/1.0.1/roslib.js"></script>
+  <script type="text/javascript" src="../js/ros_connection.js"></script>
+  <script type="text/javascript" src="../js/ros_topic.js"></script>
+  <script type="text/javascript" src="../js/ros_param.js"></script>
+  <script type="text/javascript" src="../js/ros_service.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    var oRosConnect = null;
+
+    $('#get_param_demo').click(function(e) {
+      e.preventDefault();
+
+      var oGetBGBParam = new RosParam({
+        $rosConn  : oRosConnect,
+        $name     : "/turtlesim/background_b"
+      });
+      var oGetBGGParam = new RosParam({
+        $rosConn  : oRosConnect,
+        $name     : "/turtlesim/background_g"
+      });
+      var oGetBGRParam = new RosParam({
+        $rosConn  : oRosConnect,
+        $name     : "/turtlesim/background_r"
+      });
+
+      var _getBackgroundColor = function(value) {
+          console.log ("Turtle background color : " + value);
+      };
+
+      oGetBGBParam.get(_getBackgroundColor);
+      oGetBGGParam.get(_getBackgroundColor);
+      oGetBGRParam.get(_getBackgroundColor);
+    });
+
+    $('#set_param_demo').click(function(e) {
+      var oSetBGBParam = new RosParam({
+        $rosConn  : oRosConnect,
+        $name     : "/turtlesim/background_b"
+      });
+      var oSetBGGParam = new RosParam({
+        $rosConn  : oRosConnect,
+        $name     : "/turtlesim/background_g"
+      });
+      var oSetBGRParam = new RosParam({
+        $rosConn  : oRosConnect,
+        $name     : "/turtlesim/background_r"
+      });
+
+      oSetBGBParam.set(Math.floor(Math.random() * 255));
+      oSetBGGParam.set(Math.floor(Math.random() * 255));
+      oSetBGRParam.set(Math.floor(Math.random() * 255));
+
+      var _serviceResponse = function(response) {
+        console.log (response);
+      };
+
+      var oTurtleSimBackGroundService = new RosService({
+        $rosConn    : oRosConnect,
+        $name       : '/clear',
+        $serviceType  : "std_srvs/Empty",
+        $request      : '',
+        $response     : _serviceResponse
+      });
+
+      oTurtleSimBackGroundService.call();
+    });
+
+    $('#topic_publish_demo').click(function(e) {
+      var oPublishTopic = new RosTopic({
+        $rosConn  : oRosConnect,
+        $name     : "/turtle1/cmd_vel",
+        $messageType : "geometry_msgs/Twist"
+      });
+
+      var twistMessage = {
+        linear: {
+            x: 2,
+            y: 0,
+            z: 0
+        },
+        angular: {
+            x: 0,
+            y: 0,
+            z: 2
+        }
+      };
+      oPublishTopic.publishMsg(twistMessage);
+    });
+
+    $('#topic_subscribe_demo').click(function(e) {
+      if((oRosConnect != null) && oRosConnect.isConnected()) {
+        var oSubsribeTopic = new RosTopic({
+          $rosConn  : oRosConnect,
+          $name     : "/turtle1/pose",
+          $messageType : 'turtlesim/Pose'
+        });
+
+        var _subscribePose = function(message) {
+          console.log (message);
+          oSubsribeTopic.unsubscribe();
+        };
+        oSubsribeTopic.subscribe(_subscribePose);
+      }
+    });
+
+    $('#connect_demo').click(function(e) {
+      oRosConnect = new RosConnection({
+        $serverUri  : "localhost",
+        $serverPort : "9090",
+        $reconnectInterval : 10
+      });
+
+      if (oRosConnect != null) {
+        var _connectCallbackFn = function() { 
+          console.log ("ROS connected"); 
+        };
+        var _disconnectCallbackFn = function() { 
+          console.log ("ROS disconnected"); 
+        };
+        var _consoleLogCallBackfn = function(nodes) {
+          console.log (JSON.stringify(nodes));
+        };
+
+        oRosConnect.registerRosConnectedCallbackFn(_connectCallbackFn);
+        oRosConnect.registerRosDisconnectedCallbackFn(_disconnectCallbackFn);
+
+        oRosConnect.getNodesList(_consoleLogCallBackfn);
+        oRosConnect.getTopicsList(_consoleLogCallBackfn);
+        oRosConnect.getParamsList(_consoleLogCallBackfn);
+        oRosConnect.getServicesList(_consoleLogCallBackfn);
+      }
+    });
+
+  });
+  </script>
+</body>
+
+</html>
