@@ -87,5 +87,3 @@ roslib_wrapper javascript plugin functionalities are demostrated with the famous
 			* roslaunch rosbridge_server rosbridge_websocket.launch (Launch websocket in the host machine with port number as 9090)
 			* rosrun turtlesim turtlesim_node  (Run the turtle simulator)
 		- Open the demo/ros_connection_demo.html in any browser. But tested in Chrome and Mozila :)
-
-More details, please refer wiki page.
